@@ -1,10 +1,10 @@
-import android.util.Log
 
 package com.example.tenantmanagementsystem
 
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.tenantmanagementsystem.databinding.ActivityMainBinding
@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Restore tenant details after screen rotation
         if (savedInstanceState != null) {
             val name = savedInstanceState.getString("tenant_name")
             val phone = savedInstanceState.getString("tenant_phone")
@@ -30,30 +31,50 @@ class MainActivity : AppCompatActivity() {
                 val tenant = Tenant(name, phone, rent)
 
                 lastTenant = tenant
-                binding.tenant = tenant
+
+                binding.tenantNameEditText.setText(tenant.name)
+                binding.phoneEditText.setText(tenant.phone)
+                binding.rentEditText.setText(tenant.rent)
             }
         }
 
+        // Save tenant details
         binding.saveButton.setOnClickListener {
             val name = binding.tenantNameEditText.text.toString().trim()
             val phone = binding.phoneEditText.text.toString().trim()
             val rent = binding.rentEditText.text.toString().trim()
 
             if (name.isEmpty() || phone.isEmpty() || rent.isEmpty()) {
-                Toast.makeText(this, "Please fill in all tenant fields", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    "Please fill in all tenant fields",
+                    Toast.LENGTH_SHORT
+                ).show()
+
                 return@setOnClickListener
             }
 
             val tenant = Tenant(name, phone, rent)
-            binding.tenant = tenant
             lastTenant = tenant
+
+            Toast.makeText(
+                this,
+                "Tenant saved successfully",
+                Toast.LENGTH_SHORT
+            ).show()
         }
 
+        // Open phone dialer
         binding.callButton.setOnClickListener {
             val tenant = lastTenant
 
             if (tenant == null) {
-                Toast.makeText(this, "Save a tenant first", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    "Save a tenant first",
+                    Toast.LENGTH_SHORT
+                ).show()
+
                 return@setOnClickListener
             }
 
@@ -61,21 +82,11 @@ class MainActivity : AppCompatActivity() {
                 Intent.ACTION_DIAL,
                 Uri.parse("tel:${tenant.phone}")
             )
+
             startActivity(dialIntent)
         }
-        if (savedInstanceState != null) {
-            val name = savedInstanceState.getString("tenant_name")
-            val phone = savedInstanceState.getString("tenant_phone")
-            val rent = savedInstanceState.getString("tenant_rent")
-
-            if (name != null && phone != null && rent != null) {
-                val tenant = Tenant(name, phone, rent)
-
-                lastTenant = tenant
-                binding.tenant = tenant
-            }
-        }
     }
+
     override fun onStart() {
         super.onStart()
         Log.d("TENANT_LIFECYCLE", "MainActivity: onStart")
@@ -106,6 +117,7 @@ class MainActivity : AppCompatActivity() {
         Log.d("TENANT_LIFECYCLE", "MainActivity: onDestroy")
     }
 
+    // Save tenant details before activity recreation
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
