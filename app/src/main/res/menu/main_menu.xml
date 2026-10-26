@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_dashboard"
+        android:title="Dashboard"
+        android:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_add_tenant"
+        android:title="Add Tenant"
+        android:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_view_tenants"
+        android:title="View Tenants"
+        android:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_about"
+        android:title="About"
+        android:showAsAction="never" />
+
+</menu>

@@ -1,3 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Tenant Management System</string>
+    <string name="tenant_details">Tenant Details</string>
+    <string name="no_new_tenant_selected">No new tenant selected</string>
+    <string name="call_tenant">Call Tenant</string>
+    <string name="all_tenants">All Tenants</string>
+    <string name="no_tenants_yet">No tenants yet.</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>
